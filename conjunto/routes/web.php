@@ -9,6 +9,7 @@ use App\Http\Controllers\movimientoscontroller;
 use App\Http\Controllers\comprascontroller;
 use App\Http\Controllers\ventascontroller;
 use App\Http\Controllers\deudacontroller;
+use App\Http\Controllers\pagoscontroller;
 use App\Http\Controllers\Auth\LoginManualController;
 
 Route::get('/', function () {
@@ -34,10 +35,16 @@ Route::resource('proveedores', proveedorescontroller::class)->parameters([
 Route::resource('compras',comprascontroller::class);
 Route::resource('ventas',ventascontroller::class);
 Route::resource('deudas',deudacontroller::class);
+Route::resource('ventas',ventascontroller::class);
+Route::resource('deudas',deudacontroller::class);
+Route::resource('pagos',pagoscontroller::class);
 
 Route::get('/dashboard/admin', function () {
     return view('dashboard.admin');
 })->name('dashboard.admin');
+Route::get('/admin/index', function () {
+    return view('admin.index');
+})->name('admin.index');
 
 Route::get('/dashboard/cajero', function () {
     return view('dashboard.cajero');
@@ -46,3 +53,5 @@ Route::get('/dashboard/cajero', function () {
 Route::get('/dashboard/cliente', function () {
     return view('dashboard.cliente');
 })->name('dashboard.cliente');
+
+

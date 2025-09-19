@@ -1,4 +1,3 @@
-<!-- filepath: c:\xampp\htdocs\Conjunto_P\conjunto_p\resources\views\index.blade.php -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
