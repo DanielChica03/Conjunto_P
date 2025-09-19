@@ -2,17 +2,17 @@
 @section('title','Editar Producto')
 
 @section('content')
-
-<h1 class="h4 mb-3">Editar Producto</h1>
-@if($errors->any())
-    <div class="alert alert-danger">
-        <ul class="mb-0">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+<div class="container">
+    <h1 class="h4 mb-3">Editar Producto</h1>
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <form action="{{ route('productos.update',$producto) }}" method="post">
         @csrf
@@ -51,5 +51,5 @@
         <button type="submit" class="btn btn-danger">Guardar</button>
         <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
-
+</div>
 @endsection
