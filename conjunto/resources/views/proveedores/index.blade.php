@@ -11,6 +11,17 @@
     
         <table class="table table-bordered">
             <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Dirección</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($proveedores as $proveedor)
                     <tr>
                         <td>{{ $proveedor->id }}</td>
                         <td>{{ $proveedor->nombre_proveedor }}</td>
