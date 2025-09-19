@@ -5,16 +5,7 @@
     <meta charset="UTF-8">
     <title>Store Products</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background: #f8f9fa; }
-        .main-header { background: #4b2c25; color: #fff; }
-        .main-header .navbar-brand img { height: 70px; }
-        .category-icon { font-size: 2.5rem; color: #b97a3c; }
-        .card { border: none; }
-        .footer { background: #222; color: #fff; padding: 40px 0; }
-        .footer a { color: #fff; }
-        .footer .fw-bold { color: #bfa14a; }
-    </style>
+    <link rel="stylesheet" href="">
 </head>
 <body>
     <!-- Header -->
@@ -111,7 +102,7 @@
             </div>
             <div class="col">
                 <div class="card p-4">
-                    <div class="category-icon mb-2 text-center">👕</div>
+                    <div class="category-icon mb-2 text-center">🥖</div>
                     <h4 class="fw-bold">Panadería</h4>
                     <ul>
                         <li>Pan de bono</li>
