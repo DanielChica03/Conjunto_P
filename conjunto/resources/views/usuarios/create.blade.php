@@ -1,9 +1,12 @@
 @extends('layouts.app')
 @section('title', 'Crear Usuario')
-
-    @section('content')
-    @section('menu')
-    @endsection
+    @php
+        $usuario = session('usuario');
+        if ($usuario === 'ADMINISTRADOR'){
+            @section('admin')
+            @endsection
+        }
+    @endphp
 
 <h1 class="h4 mb-3">Crear Usuario</h1>
 
@@ -72,6 +75,7 @@
         </div>
         <button type="submit" class="btn btn-danger">Guardar</button>
         <a href="{{ route('usuarios.index') }}" class="btn btn-secundary">Cancelar</a>
+        @yield('adminU')
     </form>
 
 @endsection

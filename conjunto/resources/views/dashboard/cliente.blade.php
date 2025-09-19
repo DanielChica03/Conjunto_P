@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Panel Cliente</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+@extends('layouts.app')
+
 <body>
     <div class="container mt-5">
-        <h2>Bienvenido Cliente, {{ session('usuario')->nombre }}</h2>
-        <ul>
-            <li><a href="#">Mis Compras</a></li>
-            <li><a href="#">Mi Perfil</a></li>
-            <li><a href="#">Volver a Tienda</a></li>
-        </ul>
+        <h2>Bienvenido cliente, {{ session('usuario')->nombre }}</h2>
     </div>
 </body>
 </html>

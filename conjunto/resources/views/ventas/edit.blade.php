@@ -23,25 +23,24 @@
             <label for="cliente_id" class="form-label">Cliente</label>
             <select name="cliente_id" id="cliente_id" class="form-select" required>
                 <option value="">Seleccione un cliente</option>
-                @foreach ($clientes as $cliente)
-                    <option value="{{ $cliente->id }}" {{ $venta->cliente_id == $cliente->id ? 'selected' : '' }}>
-                        {{ $cliente->nombre_cliente }}
+                @foreach ($usuarios as $usuario)
+                    <option value="{{ $usuario->cedula }}" {{ $venta->cliente_id == $usuario->cedula ? 'selected' : '' }}>
+                        {{ $usuario->nombre }}
                     </option>
                 @endforeach
             </select>
         </div>
 
         <div class="mb-3">
-            <label for="fecha" class="form-label">Fecha</label>
-            <input type="date" name="fecha" id="fecha" class="form-control" value="{{ $venta->fecha }}" required>
+            <label for="fecha_venta" class="form-label">Fecha</label>
+            <input type="date" name="fecha_venta" id="fecha_venta" class="form-control" value="{{ $venta->fecha_venta }}" required>
         </div>
 
         <div class="mb-3">
             <label for="estado" class="form-label">Estado</label>
             <select name="estado" id="estado" class="form-select" required>
-                <option value="pendiente" {{ $venta->estado == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
-                <option value="completada" {{ $venta->estado == 'completada' ? 'selected' : '' }}>Completada</option>
-                <option value="cancelada" {{ $venta->estado == 'cancelada' ? 'selected' : '' }}>Cancelada</option>
+                <option value="PENDIENTE" {{ $venta->estado == 'PENDIENTE' ? 'selected' : '' }}>Pendiente</option>
+                <option value="REALIZADA" {{ $venta->estado == 'REALIZADA' ? 'selected' : '' }}>Realizada</option>
             </select>
         </div>
 
@@ -156,6 +155,21 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".cantidad").forEach(input => {
             input.oninput = function () {
                 let row = this.closest("tr");
+                let productoId = row.querySelector('.producto').value;
+                let cantidadSolicitada = parseInt(this.value) || 0;
+                let inventarioDisponible = productosData[productoId]?.inventario ?? Infinity;
+                // Sumar la cantidad ya registrada en la venta para ese producto
+                let cantidadAnterior = 0;
+                @foreach ($venta->detalles as $detalle)
+                if ({{ $detalle->producto_id }} == productoId) {
+                    cantidadAnterior = {{ $detalle->cantidad }};
+                }
+                @endforeach
+                let maxPermitido = inventarioDisponible + cantidadAnterior;
+                if (cantidadSolicitada > maxPermitido) {
+                    mostrarAlerta('La cantidad solicitada supera el inventario disponible.');
+                    this.value = maxPermitido;
+                }
                 calcularSubtotal(row);
                 calcularTotal();
             };
@@ -167,6 +181,15 @@ document.addEventListener("DOMContentLoaded", function () {
             };
         });
         if(descuentoInput) descuentoInput.oninput = calcularTotal;
+    }
+
+    function mostrarAlerta(mensaje) {
+        let alerta = document.createElement('div');
+        alerta.className = 'alert alert-warning alert-dismissible fade show';
+        alerta.role = 'alert';
+        alerta.innerHTML = mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+        document.querySelector('.container').prepend(alerta);
+        setTimeout(() => { alerta.remove(); }, 4000);
     }
 
     function calcularSubtotal(row) {

@@ -37,9 +37,8 @@
         <label for="estado" class="form-label">Estado: </label>
         <select name="estado" id="estado" class="form-select" required>
             <option value="" disabled selected>Seleccione un estado</option>
-            <option value="pendiente" {{ old('estado') == 'pendiente' ? 'selected' : '' }}>Pendiente</option>
-            <option value="completada" {{ old('estado') == 'completada' ? 'selected' : '' }}>Completada</option>
-            <option value="cancelada" {{ old('estado') == 'cancelada' ? 'selected' : '' }}>Cancelada</option>
+            <option value="PENDIENTE" {{ old('estado') == 'PENDIENTE' ? 'selected' : '' }}>Pendiente</option>
+            <option value="REALIZADA" {{ old('estado') == 'REALIZADA' ? 'selected' : '' }}>Realizada</option>
         </select>
     </div>
 
@@ -67,7 +66,7 @@
                     <select name="productos[{{ $i }}][producto_id]" class="form-select producto" required>
                         <option value="" disabled>Seleccione</option>
                         @foreach($productos as $producto)
-                            <option value="{{ $producto->id }}" 
+                            <option value="{{ $producto->id }}"
                                 {{ ($prod['producto_id'] ?? null) == $producto->id ? 'selected' : '' }}>
                                 {{ $producto->nombre_producto }}
                             </option>
@@ -75,21 +74,21 @@
                     </select>
                 </td>
                 <td>
-                    <input type="number" name="productos[{{ $i }}][cantidad]" 
-                           class="form-control cantidad" 
-                           min="1" 
-                           value="{{ $prod['cantidad'] ?? 1 }}" required>
+                    <input type="number" name="productos[{{ $i }}][cantidad]"
+                        class="form-control cantidad"
+                        min="1"
+                        value="{{ $prod['cantidad'] ?? 1 }}" required>
                 </td>
                 <td>
-                    <input type="number" name="productos[{{ $i }}][valor_unitario]" 
-                           class="form-control valor_unitario" 
-                           step="0.01" 
-                           value="{{ $prod['valor_unitario'] ?? '' }}" readonly>
+                    <input type="number" name="productos[{{ $i }}][valor_unitario]"
+                        class="form-control valor_unitario"
+                        step="0.01"
+                        value="{{ $prod['valor_unitario'] ?? '' }}" readonly>
                 </td>
                 <td>
-                    <input type="number" name="productos[{{ $i }}][subtotal]" 
-                           class="form-control subtotal" 
-                           value="{{ $prod['subtotal'] ?? '' }}" readonly>
+                    <input type="number" name="productos[{{ $i }}][subtotal]"
+                        class="form-control subtotal"
+                        value="{{ $prod['subtotal'] ?? '' }}" readonly>
                 </td>
                 <td>
                     <button type="button" class="btn btn-danger btn-sm eliminar">X</button>
@@ -145,14 +144,24 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".producto").forEach(select => {
             select.onchange = function () {
                 let productoId = this.value;
-                let precio = productos[productoId] || 0;
+                let precio = productos[productoId]?.valor_unitario || productos[productoId] || 0;
                 let row = this.closest("tr");
                 row.querySelector(".valor_unitario").value = precio;
                 calcularTotales();
             };
         });
         document.querySelectorAll(".cantidad").forEach(input => {
-            input.oninput = calcularTotales;
+            input.oninput = function () {
+                let row = this.closest("tr");
+                let productoId = row.querySelector('.producto').value;
+                let cantidadSolicitada = parseInt(this.value) || 0;
+                let inventarioDisponible = productos[productoId]?.inventario ?? Infinity;
+                if (cantidadSolicitada > inventarioDisponible) {
+                    mostrarAlerta('La cantidad solicitada supera el inventario disponible.');
+                    this.value = inventarioDisponible;
+                }
+                calcularTotales();
+            };
         });
         document.querySelectorAll(".eliminar").forEach(btn => {
             btn.onclick = function () {
@@ -161,6 +170,15 @@ document.addEventListener("DOMContentLoaded", function () {
             };
         });
         if(descuentoInput) descuentoInput.oninput = calcularTotales;
+    }
+
+    function mostrarAlerta(mensaje) {
+        let alerta = document.createElement('div');
+        alerta.className = 'alert alert-warning alert-dismissible fade show';
+        alerta.role = 'alert';
+        alerta.innerHTML = mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+        document.querySelector('form').prepend(alerta);
+        setTimeout(() => { alerta.remove(); }, 4000);
     }
 
     function calcularTotales() {

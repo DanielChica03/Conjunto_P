@@ -8,7 +8,7 @@
 <a href="{{ route('ventas.create') }}" class="btn btn-primary mb-3">Nueva Venta</a>
 
 <div class="d-flex justify-content-between" style="margin: 20px;">
-    <table class="table table-bordered">
+    <table class="table table-custom">
         <thead>
             <tr>
                 <th>ID</th>
@@ -25,8 +25,8 @@
             @forelse($ventas as $venta)
                 <tr>
                     <td>{{ $venta->id }}</td>
-                    <td>{{ $venta->cliente->nombre_cliente ?? 'Sin Cliente' }}</td>
-                    <td>{{ $venta->fecha }}</td>
+                    <td>{{ $venta->cliente->nombre ?? 'Sin Cliente' }}</td>
+                    <td>{{ $venta->fecha_venta }}</td>
                     <td>
                         <ul class="mb-0">
                             @foreach($venta->detalles as $detalle)
