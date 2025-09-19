@@ -4,6 +4,7 @@
 @section('content')
 @section('menu')
 @endsection
+<link rel="stylesheet" href="{{ asset('css/usuarios.css') }}">
 
 <h1 class="h4 mb-3">Lista de Inventario</h1>
 
@@ -13,7 +14,7 @@
 
 <a href="{{ route('inventario.create') }}" class="btn btn-primary mb-3">Agregar Item</a>
 
-<table class="table table-bordered">
+<table class="table table-custom">
     <thead>
         <tr>
             <th>ID</th>

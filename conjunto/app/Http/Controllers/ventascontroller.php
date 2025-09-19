@@ -39,7 +39,7 @@ class ventascontroller extends Controller
         $request->validate([
             'cliente' => 'required|exists:usuarios,cedula',
             'fecha_venta' => 'required|date',
-            'estado' => 'required|in:pendiente,completada,cancelada',
+            'estado' => 'required|in:REALIZADA,PENDIENTE',
             'total' => 'required|numeric|min:0',
             'descuento' => 'nullable|numeric|min:0',
             'productos' => 'required|array|min:1',
@@ -66,6 +66,16 @@ class ventascontroller extends Controller
                     'valor_unitario' => $producto['valor_unitario'],
                     'subtotal' => $subtotal,
                 ]);
+
+                // Descontar del inventario
+                $inventario = \App\Models\inventario::where('producto_id', $producto['producto_id'])->first();
+                if ($inventario) {
+                    $inventario->cantidad -= $producto['cantidad'];
+                    if ($inventario->cantidad < 0) {
+                        throw new \Exception('No hay suficiente inventario para el producto ID: ' . $producto['producto_id']);
+                    }
+                    $inventario->save();
+                }
             }
         });
 
@@ -85,9 +95,9 @@ class ventascontroller extends Controller
      */
     public function edit(ventas $venta)
     {
-        $clientes = clientes::all();
-        $productos = producto::all();
-        return view('venta.edit', compact('venta', 'clientes', 'productos'));
+    $usuarios = usuarios::where('tipo_usuario', 'CLIENTE')->get();
+    $productos = producto::all();
+    return view('ventas.edit', compact('venta', 'usuarios', 'productos'));
     }
 
     /**
@@ -96,10 +106,10 @@ class ventascontroller extends Controller
     public function update(Request $request, ventas $venta)
     {
         $request->validate([
-            'cliente_id' => 'required|exists:clientes,id',
-            'fecha' => 'required|date',
+            'cliente_id' => 'required|exists:usuarios,cedula',
+            'fecha_venta' => 'required|date',
             'total' => 'required|numeric|min:0',
-            'estado' => 'required|in:pendiente,completada,cancelada',
+            'estado' => 'required|in:REALIZADA,PENDIENTE',
             'descuento' => 'nullable|numeric|min:0',
             'productos' => 'required|array|min:1',
             'productos.*.producto_id' => 'required|exists:productos,id',
@@ -110,25 +120,43 @@ class ventascontroller extends Controller
         DB::transaction(function () use ($request, $venta) {
             $venta->update([
                 'cliente_id' => $request->cliente_id,
-                'fecha' => $request->fecha,
+                'fecha_venta' => $request->fecha_venta,
                 'total' => $request->total,
                 'estado' => $request->estado,
                 'descuento' => $request->descuento,
             ]);
 
+            // Devolver inventario de los productos anteriores
+            foreach ($venta->detalles as $detalle) {
+                $inventario = \App\Models\inventario::where('producto_id', $detalle->producto_id)->first();
+                if ($inventario) {
+                    $inventario->cantidad += $detalle->cantidad;
+                    $inventario->save();
+                }
+            }
+
             // Elimina los detalles anteriores
             $venta->detalles()->delete();
 
-            // Inserta los nuevos detalles
+            // Inserta los nuevos detalles y descuenta inventario
             foreach ($request->productos as $producto) {
                 $subtotal = $producto['cantidad'] * $producto['valor_unitario'];
-                ventadetalles::create([
+                ventasdetalle::create([
                     'venta_id' => $venta->id,
                     'producto_id' => $producto['producto_id'],
                     'cantidad' => $producto['cantidad'],
                     'valor_unitario' => $producto['valor_unitario'],
                     'subtotal' => $subtotal,
                 ]);
+
+                $inventario = \App\Models\inventario::where('producto_id', $producto['producto_id'])->first();
+                if ($inventario) {
+                    $inventario->cantidad -= $producto['cantidad'];
+                    if ($inventario->cantidad < 0) {
+                        throw new \Exception('No hay suficiente inventario para el producto ID: ' . $producto['producto_id']);
+                    }
+                    $inventario->save();
+                }
             }
         });
 

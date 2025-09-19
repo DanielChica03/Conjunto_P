@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\pagos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class pagoscontroller extends Controller
 {
@@ -12,7 +13,8 @@ class pagoscontroller extends Controller
      */
     public function index()
     {
-        //
+        $pagos = pagos::with('deuda.venta')->latest()->get();
+        return view('pagos.index', compact('pagos'));
     }
 
     /**
@@ -28,7 +30,27 @@ class pagoscontroller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id_deuda' => 'required|exists:deudas,id_deuda',
+            'abono' => 'required|numeric|min:1',
+            'fecha' => 'required|date',
+        ]);
+
+        DB::transaction(function () use ($request) {
+            $deuda = \App\Models\deuda::findOrFail($request->id_deuda);
+            $nuevoSaldo = $deuda->saldo - $request->abono;
+            $deuda->saldo = $nuevoSaldo;
+            $deuda->save();
+
+            pagos::create($request->all());
+
+            // Si la deuda queda saldada, cambiar estado de la venta
+            if ($deuda->saldo <= 0) {
+                $deuda->venta->estado = 'REALIZADA';
+                $deuda->venta->save();
+            }
+        });
+        return redirect()->route('pagos.index')->with('success', 'Pago registrado correctamente.');
     }
 
     /**

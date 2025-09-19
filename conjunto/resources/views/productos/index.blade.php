@@ -2,13 +2,14 @@
 @section('title', 'Lista de Productos')
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('css/usuarios.css') }}">
 
 <h1 class="h4 mb-3">Lista de Productos</h1>
 
 <a href="{{ route('productos.create') }}" class="btn btn-primary mb-3">Nuevo Producto</a>
 
 <div class="d-flex justify-content-between" style="margin: 20px;">
-    <table class="table table-bordered">
+    <table class="table table-custom">
         <thead>
             <tr>
                 <th>ID</th>

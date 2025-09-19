@@ -1,12 +1,14 @@
 @extends('layouts.app')
 @section('title', 'Lista de Deudas')
 @section('content')
+<link rel="stylesheet" href="{{ asset('css/usuarios.css') }}">
+
 <h1 class="h4 mb-3">Lista de Deudas</h1>
 <a href="{{ route('deudas.create') }}" class="btn btn-primary mb-3">Nueva Deuda</a>
 @if(session('success'))
     <div class="alert alert-success">{{ session('success') }}</div>
 @endif
-<table class="table table-bordered">
+<table class="table table-custom">
     <thead>
         <tr>
             <th>ID</th>

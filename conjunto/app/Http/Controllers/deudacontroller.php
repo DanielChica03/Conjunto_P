@@ -12,7 +12,8 @@ class deudacontroller extends Controller
      */
     public function index()
     {
-        //
+        $deudas = deuda::with('venta')->latest()->get();
+        return view('deudas.index', compact('deudas'));
     }
 
     /**
@@ -20,7 +21,9 @@ class deudacontroller extends Controller
      */
     public function create()
     {
-        //
+        // Solo ventas pendientes
+        $ventas = \App\Models\ventas::where('estado', 'PENDIENTE')->get();
+        return view('deudas.create', compact('ventas'));
     }
 
     /**
@@ -28,7 +31,14 @@ class deudacontroller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'id_venta' => 'required|exists:ventas,id',
+            'valor' => 'required|numeric|min:0',
+            'plazo' => 'required|date',
+            'saldo' => 'required|numeric|min:0',
+        ]);
+        deuda::create($request->all());
+        return redirect()->route('deudas.index')->with('success', 'Deuda creada exitosamente.');
     }
 
     /**
@@ -36,7 +46,7 @@ class deudacontroller extends Controller
      */
     public function show(deuda $deuda)
     {
-        //
+        return view('deudas.show', compact('deuda'));
     }
 
     /**
@@ -44,7 +54,8 @@ class deudacontroller extends Controller
      */
     public function edit(deuda $deuda)
     {
-        //
+        $ventas = \App\Models\ventas::where('estado', 'PENDIENTE')->get();
+        return view('deudas.edit', compact('deuda', 'ventas'));
     }
 
     /**
@@ -52,7 +63,14 @@ class deudacontroller extends Controller
      */
     public function update(Request $request, deuda $deuda)
     {
-        //
+        $request->validate([
+            'id_venta' => 'required|exists:ventas,id',
+            'valor' => 'required|numeric|min:0',
+            'plazo' => 'required|date',
+            'saldo' => 'required|numeric|min:0',
+        ]);
+        $deuda->update($request->all());
+        return redirect()->route('deudas.index')->with('success', 'Deuda actualizada exitosamente.');
     }
 
     /**
@@ -60,6 +78,7 @@ class deudacontroller extends Controller
      */
     public function destroy(deuda $deuda)
     {
-        //
+        $deuda->delete();
+        return redirect()->route('deudas.index')->with('success', 'Deuda eliminada exitosamente.');
     }
 }

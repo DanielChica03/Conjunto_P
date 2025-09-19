@@ -2,12 +2,11 @@
 @section('title', 'Lista de Ventas')
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('css/usuarios.css') }}">
 
 <h1 class="h4 mb-3">Lista de Ventas</h1>
 
 <a href="{{ route('ventas.create') }}" class="btn btn-primary mb-3">Nueva Venta</a>
-
-<div class="d-flex justify-content-between" style="margin: 20px;">
     <table class="table table-custom">
         <thead>
             <tr>
