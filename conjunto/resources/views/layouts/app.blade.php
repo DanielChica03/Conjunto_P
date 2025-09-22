@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Conjunto')</title>
-    <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
+    <link rel="stylesheet" href="../../css/estilos.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <style>
         .table-custom th {
@@ -62,7 +62,13 @@
     <div>
         
         <div class="container mt-5">
-            <h2>Bienvenido Administrador, {{ session('usuario')->nombre }}</h2>
+            @if($usuario && strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR')
+                <h2>Bienvenido Administrador, {{ session('usuario')->nombre }}</h2>
+            @elseif($usuario && strtoupper($usuario->tipo_usuario) === 'CLIENTE')
+                <h2>Bienvenido Cliente, {{ session('usuario')->nombre }}</h2>
+            @elseif($usuario && strtoupper($usuario->tipo_usuario) === 'CAJERO')
+                <h2>Bienvenido Cajero, {{ session('usuario')->nombre }}</h2>
+            @endif 
         </div>
         
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -88,17 +94,17 @@
                 <a href="{{ route('compras.index') }}" class="navbar-brand">Compras</a>
                 <a href="{{ route('deudas.index') }}" class="navbar-brand">Deudas</a>
                 <a href="{{ route('ventas.index') }}" class="navbar-brand">Ventas</a>
+                <a href="{{ route('pagos.index') }}" class="navbar-brand">Pagos</a>
             @elseif($usuario && strtoupper($usuario->tipo_usuario) === 'CLIENTE')
                 <a href="{{ route('usuarios.index') }}" class="navbar-brand">Perfil</a>
                 <a href="{{ route('productos.index') }}" class="navbar-brand">Productos</a>
                 <a href="{{ route('deudas.index') }}" class="navbar-brand">Mis deudas</a>
                 <a href="{{ route('ventas.index') }}" class="navbar-brand">Mis Compras</a>
+                <a href="{{ route('pagos.index') }}" class="navbar-brand">Pagos</a>
             @elseif($usuario && strtoupper($usuario->tipo_usuario) === 'CAJERO')
                 <a href="{{ route('usuarios.index') }}" class="navbar-brand">Usuarios</a>
                 <a href="{{ route('inventario.index') }}" class="navbar-brand">Inventario</a>
                 <a href="{{ route('productos.index') }}" class="navbar-brand">Productos</a>
-                <a href="{{ route('proveedores.index') }}" class="navbar-brand">Proveedores</a>
-                <a href="{{ route('compras.index') }}" class="navbar-brand">Compras</a>
                 <a href="{{ route('deudas.index') }}" class="navbar-brand">Deudas</a>
                 <a href="{{ route('ventas.index') }}" class="navbar-brand">Ventas</a>
             @endif  

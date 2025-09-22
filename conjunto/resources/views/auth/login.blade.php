@@ -5,13 +5,15 @@
     <meta charset="UTF-8">
     <title>Iniciar Sesión</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+<link rel="stylesheet" href="{{ asset('css/login.css') }}">
     <style>
         body { background: #f8f9fa; }
         .login-container { max-width: 400px; margin: 80px auto; }
     </style>
 </head>
 <body>
-    <div class="login-container card p-4 shadow">
+    <div class="wrapper">
         <h2 class="mb-4 text-center">Iniciar Sesión</h2>
         @if(session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>

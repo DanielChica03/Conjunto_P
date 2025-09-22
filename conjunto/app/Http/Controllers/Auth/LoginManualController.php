@@ -20,11 +20,11 @@ class LoginManualController extends Controller
             // Redirige según el tipo de usuario
             switch (strtoupper($usuario->tipo_usuario)) {
                 case 'ADMINISTRADOR':
-                    return redirect()->route('dashboard.admin');
+                    return redirect()->route('usuarios.index');
                 case 'CAJERO':
-                    return redirect()->route('dashboard.cajero');
+                    return redirect()->route('usuarios.index');
                 case 'CLIENTE':
-                    return redirect()->route('dashboard.cliente');
+                    return redirect()->route('usuarios.index');
                 default:
                     return redirect()->route('index');
             }

@@ -1,0 +1,456 @@
+/* ====== Estilos generales ====== */
+/* ====== ESTILOS GENERALES ====== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0c499 !important; /* fondo beige claro */
+    margin: 0;
+    padding: 20px;
+    color: #3b2a28; /* marrón oscuro para textos */
+}
+
+/* ====== TÍTULO ====== */
+h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #4b2b29; /* marrón oscuro */
+    margin-bottom: 20px;
+    text-align: center;
+    position: relative;
+}
+
+h1::after {
+    content: "";
+    display: block;
+    width: 90px;
+    height: 4px;
+    background: #c1752d; /* dorado-anaranjado */
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+
+/* ====== BOTÓN PRINCIPAL ====== */
+.btn-primary {
+    background-color: #c1752d; /* dorado-anaranjado */
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 10px 16px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #a65f22;
+}
+
+/* ====== TABLA PERSONALIZADA ====== */
+.table-custom {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.table-custom thead {
+    background-color: #4b2b29; /* marrón oscuro */
+    color: #fff;
+}
+
+.table-custom th, 
+.table-custom td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.95rem;
+}
+
+.table-custom tbody tr:nth-child(even) {
+    background-color: #fdfbf9;
+}
+
+.table-custom tbody tr:hover {
+    background-color: #f5e7dc; /* tono claro beige/dorado */
+    transition: 0.2s;
+}
+
+/* Contenedor de acciones en la tabla */
+.table-custom td {
+    white-space: nowrap; /* evita que se rompa la línea */
+}
+
+/* Agrupamos los botones */
+.table-custom td .btn,
+.table-custom td form {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+/* Último botón sin margen extra */
+.table-custom td .btn:last-child,
+.table-custom td form:last-child {
+    margin-right: 0;
+}
+
+
+/* ====== BOTONES DE ACCIONES ====== */
+.btn-info {
+    background-color: #4b2b29; /* marrón oscuro */
+    border: none;
+    color: #fff;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    padding: 6px 10px;
+    transition: background 0.3s ease;
+}
+.btn-info:hover {
+    background-color: #2e1a18;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    border: none;
+    color: #fff;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    padding: 6px 10px;
+    transition: background 0.3s ease;
+}
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+/* ====== ALERTAS ====== */
+.alert-success {
+    background-color: #f5e7dc;
+    border-left: 5px solid #c1752d;
+    color: #4b2b29;
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+/* ====== Botones de acción ====== */
+.btn-info {
+    background-color: #3d2b1f; /* marrón */
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #fff;
+    cursor: pointer;
+    margin-right: 4px;
+}
+
+.btn-info:hover {
+    background-color: #5a3c2a;
+}
+
+.btn-danger {
+    background-color: #b23b3b; /* rojo */
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn-danger:hover {
+    background-color: #922d2d;
+}
+
+/* Asegura que los botones estén en línea */
+.table-custom td form,
+.table-custom td a {
+    display: inline-block;
+    margin: 0 2px;
+}
+/* ======= NAVBAR ======= */
+.navbar {
+    background: #4b2c25 !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    font-weight: 600;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ff9800 !important;
+    letter-spacing: 0.5px;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #fff !important;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #ff9800 !important;
+}
+
+.navbar-text {
+    font-weight: 500;
+    color: #fff;
+}
+
+/* Botón cerrar sesión */
+.btn-outline-light {
+    border-radius: 6px;
+    padding: 4px 12px;
+    transition: all 0.3s ease;
+    color: #fff;
+    border-color: #fff;
+}
+.btn-outline-light:hover {
+    background: #fff;
+    color: #4b2c25;
+}
+
+/* ======= CONTENEDORES ======= */
+.container h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #4b2c25;
+}
+
+/* Caja usuarios */
+.usuarios-bg {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    padding: 40px 30px;
+    margin: 0 auto;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+/* Columna icono */
+.usuarios-icon-col {
+    width: 120px;
+    text-align: center;
+}
+.usuarios-icon-col img {
+    width: 80px;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 2px 8px rgba(75,44,37,0.3));
+}
+
+/* Título tabla usuarios */
+.usuarios-table-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #4b2c25;
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+/* ======= TABLAS ======= */
+.table.table-custom th {
+    background: #ff9800;
+    color: #fff;
+    font-size: 1.1rem;
+    border: none;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table.table-custom td {
+    background: #fff8f0;
+    color: #4b2c25;
+    font-size: 1rem;
+    border: none;
+    text-align: center;
+    vertical-align: middle;
+    font-weight: 500;
+}
+
+.table.table-custom tr {
+    border-bottom: 2px solid #e0c3a0;
+}
+
+/* ======= BOTONES ======= */
+.btn {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    padding: 8px 20px;
+}
+
+/* Naranja */
+.btn-primary {
+    background: #ff9800;
+    border: none;
+    color: #fff;
+}
+.btn-primary:hover, .btn-primary:focus {
+    background: #e68900;
+    color: #fff;
+}
+
+/* Marrón */
+.btn-info {
+    background: #4b2c25;
+    border: none;
+    color: #fff;
+}
+.btn-info:hover, .btn-info:focus {
+    background: #6d3c2a;
+    color: #fff;
+}
+
+/* Rojo */
+.btn-danger {
+    background: #b23c17;
+    border: none;
+    color: #fff;
+}
+.btn-danger:hover, .btn-danger:focus {
+    background: #a12e0c;
+    color: #fff;
+}
+
+/* ======= RESPONSIVE ======= */
+@media (max-width: 991px) {
+    .usuarios-bg {
+        flex-direction: column;
+        padding: 20px 15px;
+    }
+    .usuarios-icon-col {
+        width: 100%;
+    }
+    .usuarios-table-title {
+        font-size: 1.6rem;
+    }
+}
+/* ====== TÍTULO ====== */
+h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #4b2b29; /* marrón oscuro */
+    margin-bottom: 20px;
+    text-align: center;
+    position: relative;
+}
+
+h1::after {
+    content: "";
+    display: block;
+    width: 90px;
+    height: 4px;
+    background: #c1752d; /* dorado-anaranjado */
+    margin: 8px auto 0;
+    border-radius: 2px;
+}
+
+/* ====== BOTÓN PRINCIPAL ====== */
+.btn-primary {
+    background-color: #c1752d; /* dorado-anaranjado */
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 10px 16px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #a65f22;
+}
+
+/* ====== TABLA PERSONALIZADA ====== */
+.table-custom {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.table-custom thead {
+    background-color: #4b2b29; /* marrón oscuro */
+    color: #fff;
+}
+
+.table-custom th, 
+.table-custom td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.95rem;
+}
+
+.table-custom tbody tr:nth-child(even) {
+    background-color: #fdfbf9;
+}
+
+.table-custom tbody tr:hover {
+    background-color: #f5e7dc; /* tono claro beige/dorado */
+    transition: 0.2s;
+}
+
+/* Contenedor de acciones en la tabla */
+.table-custom td {
+    white-space: nowrap; /* evita que se rompa la línea */
+}
+
+/* Agrupamos los botones */
+.table-custom td .btn,
+.table-custom td form {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+/* Último botón sin margen extra */
+.table-custom td .btn:last-child,
+.table-custom td form:last-child {
+    margin-right: 0;
+}
+
+
+/* ====== BOTONES DE ACCIONES ====== */
+.btn-info {
+    background-color: #4b2b29; /* marrón oscuro */
+    border: none;
+    color: #fff;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    padding: 6px 10px;
+    transition: background 0.3s ease;
+}
+.btn-info:hover {
+    background-color: #2e1a18;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    border: none;
+    color: #fff;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    padding: 6px 10px;
+    transition: background 0.3s ease;
+}
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+/* ====== ALERTAS ====== */
+.alert-success {
+    background-color: #f5e7dc;
+    border-left: 5px solid #c1752d;
+    color: #4b2b29;
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}

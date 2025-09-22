@@ -6,11 +6,11 @@ use App\Http\Controllers\productoscontroller;
 use App\Http\Controllers\inventariocontroller;
 use App\Http\Controllers\proveedorescontroller;
 use App\Http\Controllers\movimientoscontroller;
+use App\Http\Controllers\Auth\LoginManualController;
 use App\Http\Controllers\comprascontroller;
 use App\Http\Controllers\ventascontroller;
 use App\Http\Controllers\deudacontroller;
 use App\Http\Controllers\pagoscontroller;
-use App\Http\Controllers\Auth\LoginManualController;
 
 Route::get('/', function () {
     return view('index');
@@ -33,8 +33,6 @@ Route::resource('proveedores', proveedorescontroller::class)->parameters([
     'proveedores' => 'proveedor',
 ]);
 Route::resource('compras',comprascontroller::class);
-Route::resource('ventas',ventascontroller::class);
-Route::resource('deudas',deudacontroller::class);
 Route::resource('ventas',ventascontroller::class);
 Route::resource('deudas',deudacontroller::class);
 Route::resource('pagos',pagoscontroller::class);

@@ -1,0 +1,12 @@
+INSERT INTO usuarios 
+(cedula, nombre, apellido, clave, correo, telefono, genero, fecha_nacimiento, tipo_usuario, estado, created_at, updated_at)
+VALUES
+(1001, 'Administrador_1', 'prueba', 'admin1', 'prueba@gmial.com', 3001234567, 'MASCULINO', '2000-05-10', 'ADMINISTRADOR', 'ACTIVO', NOW(), NOW()),
+(1002, 'Cajero_1', 'preuba', 'cajero1', 'prueba@example.com', 3109876543, 'FEMENINO', '1998-09-22', 'CAJERO', 'ACTIVO', NOW(), NOW()),
+(1003, 'Clientes_1', 'prueba', 'cliente1', 'prueba@example.com', 3204567890, 'MASCULINO', '2002-01-15', 'CLIENTE', 'INACTIVO', NOW(), NOW());
+
+
+-- cedula          -- clave
+1001                admin1
+1002                cajero1
+1003                cliente1

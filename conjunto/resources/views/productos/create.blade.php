@@ -32,7 +32,7 @@
 
         <div class="mb-3">
             <label for="valor_unitario" class="form-label">Valor unitario: </label>
-            <input type="text" class="form-control" id="valor_unitario" name="valor_unitario" min="50" value="{{ old('valor_unitario') }}" placeholder="1200" required>
+            <input type="number" class="form-control" id="valor_unitario" name="valor_unitario" min="50" value="{{ old('valor_unitario') }}" placeholder="1200" required>
         </div>
 
         <div class="mb-3">

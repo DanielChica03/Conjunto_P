@@ -63,7 +63,7 @@
     <h1 class="h4 mb-3">Mi perfil</h1>
 
 <div class="d-flex justify-content-between" style="margin: 20px;">
-    <table class="table table-bordered">
+    <table class="table table-custom">
         <thead>
             <tr>
                 <th>Cédula</th>

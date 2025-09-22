@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Store Products</title>
+    <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="">
 </head>
 <body>
     <!-- Header -->
     <nav class="navbar navbar-expand-lg main-header">
         <div class="container">
             <a class="navbar-brand mx-auto" href="#">
-                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Store Logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="Store Logo" style="width: 30px;">
                 <span class="ms-2">STORE <span class="fw-light">PRODUCTS</span></span>
             </a>
             <div class="d-flex align-items-center">

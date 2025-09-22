@@ -15,7 +15,7 @@
         </ul>
     </div>
 @endif
-
+<div class="container">
 <form action="{{ route('proveedores.store') }}" method="post">
     @csrf
 
@@ -26,7 +26,7 @@
 
     <div class="mb-3">
         <label for="telefono" class="form-label">Teléfono:</label>
-        <input type="text" class="form-control" id="telefono" name="telefono" maxlength="15" value="{{ old('telefono') }}" required>
+        <input type="number" class="form-control" id="telefono" name="telefono" maxlength="15" value="{{ old('telefono') }}" required>
     </div>
 
     <div class="mb-3">
@@ -42,5 +42,5 @@
     <button type="submit" class="btn btn-danger">Guardar</button>
     <a href="{{ route('proveedores.index') }}" class="btn btn-secondary">Cancelar</a>
 </form>
-
+</div>
 @endsection
