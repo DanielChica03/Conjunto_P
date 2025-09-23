@@ -17,7 +17,7 @@
 @endif
 
 {{-- SOLO ADMINISTRADOR puede registrar --}}
-@if($usuario && strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR')
+@if($usuario && strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR') 
     <a href="{{ route('inventario.create') }}" class="btn btn-primary mb-3">Agregar Item</a>
 @endif
 

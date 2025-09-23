@@ -17,7 +17,7 @@
     <a href="{{ route('deudas.create') }}" class="btn btn-primary mb-3">Nueva Deuda</a>
 @endif
 
-<table class="table table-bordered">
+<table class="table table-custom">
     <thead>
         <tr>
             <th>ID</th>
