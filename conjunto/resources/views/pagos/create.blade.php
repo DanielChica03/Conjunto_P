@@ -1,6 +1,10 @@
 @extends('layouts.app')
 @section('title', 'Registrar Pago')
 @section('content')
+@php
+    $usuario = session('usuario');
+@endphp
+
 <h1 class="h4 mb-3">Registrar Pago</h1>
 @if($errors->any())
     <div class="alert alert-danger">

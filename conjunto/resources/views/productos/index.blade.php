@@ -2,6 +2,8 @@
 @section('title', 'Lista de Productos')
 
 @section('content')
+-+
+
 <link rel="stylesheet" href="{{ asset('css/usuarios.css') }}">
 
 @php
@@ -13,7 +15,6 @@
 {{-- SOLO ADMIN puede registrar productos --}}
 @if($usuario && strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR')
     <a href="{{ route('productos.create') }}" class="btn btn-primary mb-3">Nuevo Producto</a>
-@endif
 
 <div class="d-flex justify-content-between" style="margin: 20px;">
     <table class="table table-custom">
@@ -65,5 +66,39 @@
         </tbody>
     </table>
 </div>
+@endif
+@if($usuario && strtoupper($usuario->tipo_usuario) === 'CLIENTE')
 
+<div class="d-flex justify-content-between" style="margin: 20px;">
+    <table class="table table-custom">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Valor Unitario</th>
+                <th>Unidad de Medida</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($productos as $producto)
+                <tr>
+                    <td>{{ $producto->id }}</td>
+                    <td>{{ $producto->nombre_producto }}</td>
+                    <td>{{ $producto->descripcion_producto }}</td>
+                    <td>{{ $producto->valor_unitario }}</td>
+                    <td>{{ $producto->unidad_medida }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="{{ $usuario && strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR' ? '7' : '6' }}" 
+                        class="text-center">
+                        No hay productos registrados.
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+@endif
 @endsection

@@ -4,6 +4,9 @@
 @section('content')
 @section('menu')
 @endsection
+@php
+    $usuario = session('usuario');
+@endphp
 
 <h1 class="h4 mb-3">Crear Compras</h1>
 
@@ -17,6 +20,7 @@
     </div>
 @endif
 
+@if(strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR')
 <form action="{{ route('compras.store') }}" method="post">
     @csrf
     <div class="mb-3">
@@ -107,6 +111,11 @@
     <button type="submit" class="btn btn-primary">Crear Compra</button>
     <a href="{{ route('compras.index') }}" class="btn btn-secondary">Cancelar</a>
 </form>
+@else
+    <div class="alert alert-danger">
+        No tiene permisos para crear compras.
+    </div>
+@endif
 @endsection
 
 <script>

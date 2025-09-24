@@ -3,7 +3,9 @@
 
 @section('content')
 <h1 class="h4 mb-3">Crear Venta</h1>
-
+@php
+    $usuario = session('usuario');
+@endphp
 @if($errors->any())
     <div class="alert alert-danger">
         <ul class="mb-0">

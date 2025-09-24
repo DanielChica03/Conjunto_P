@@ -103,10 +103,9 @@
                 <a href="{{ route('pagos.index') }}" class="navbar-brand">Pagos</a>
             @elseif($usuario && strtoupper($usuario->tipo_usuario) === 'CAJERO')
                 <a href="{{ route('usuarios.index') }}" class="navbar-brand">Usuarios</a>
-                <a href="{{ route('inventario.index') }}" class="navbar-brand">Inventario</a>
-                <a href="{{ route('productos.index') }}" class="navbar-brand">Productos</a>
                 <a href="{{ route('deudas.index') }}" class="navbar-brand">Deudas</a>
                 <a href="{{ route('ventas.index') }}" class="navbar-brand">Ventas</a>
+                <a href="{{ route('pagos.index') }}" class="navbar-brand">Pagos</a>
             @endif  
         </div>
     @yield('menu')

@@ -55,7 +55,7 @@
     </table>
 
 @elseif($usuario && strtoupper($usuario->tipo_usuario) === 'CLIENTE')
-    <h1 class="h4 mb-3">Lista de Pagos (Cliente)</h1>
+    <h1 class="h4 mb-3">Lista de Pagos</h1>
 
     <a href="{{ route('pagos.create') }}" class="btn btn-primary mb-3">Registrar Pago</a>
 
@@ -93,6 +93,37 @@
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar pago?')">Eliminar</button>
                         </form>
                     </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="6" class="text-center">No hay pagos registrados.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+@elseif($usuario && strtoupper($usuario->tipo_usuario) === 'CAJERO')
+    <h1 class="h4 mb-3">Lista de Pagos</h1>
+
+    <a href="{{ route('pagos.create') }}" class="btn btn-primary mb-3">Registrar Pago</a>
+
+    <table class="table table-custom">
+        <thead>
+            <tr>
+                <th>ID Pago</th>
+                <th>Deuda</th>
+                <th>Venta</th>
+                <th>Abono</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($pagos as $pago)
+                <tr>
+                    <td>{{ $pago->id_pago }}</td>
+                    <td>{{ $pago->deuda->id_deuda ?? 'Sin deuda' }}</td>
+                    <td>{{ $pago->deuda->venta->id ?? 'Sin venta' }}</td>
+                    <td>{{ $pago->abono }}</td>
+                    <td>{{ $pago->fecha }}</td>
                 </tr>
             @empty
                 <tr>

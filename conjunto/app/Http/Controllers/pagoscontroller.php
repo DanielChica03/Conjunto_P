@@ -13,7 +13,20 @@ class pagoscontroller extends Controller
      */
     public function index()
     {
-        $pagos = pagos::with('deuda.venta')->latest()->get();
+        $usuario = session('usuario');
+        if ($usuario && strtoupper($usuario->tipo_usuario) === 'CLIENTE') {
+            // Solo pagos del cliente logueado
+            $pagos = \App\Models\pagos::with('deuda.venta')
+                ->get()
+                ->filter(function ($pago) use ($usuario) {
+                    return $pago->deuda
+                        && $pago->deuda->venta
+                        && $pago->deuda->venta->cliente_id == $usuario->cedula;
+                });
+        } else {
+            // Admin y otros ven todos los pagos
+            $pagos = \App\Models\pagos::with('deuda.venta')->latest()->get();
+        }
         return view('pagos.index', compact('pagos'));
     }
 

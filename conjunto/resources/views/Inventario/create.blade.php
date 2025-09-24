@@ -4,6 +4,10 @@
 @section('content')
 @section('menu')
 @endsection
+@php
+    $usuario = session('usuario');
+@endphp
+@if(strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR')
 
 <h1 class="h4 mb-3">Registrar Item Inventario</h1>
 
@@ -63,4 +67,10 @@
     <button type="submit" class="btn btn-danger">Guardar</button>
     <a href="{{ route('inventario.index') }}" class="btn btn-secondary">Cancelar</a>
 </form>
+@else
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">Acceso Denegado</h4>
+        <p>No tienes permiso para acceder a esta página.</p>
+    </div>
+@endif
 @endsection

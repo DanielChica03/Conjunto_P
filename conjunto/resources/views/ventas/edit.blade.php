@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Editar Venta')
-
+@php
+    $usuario = session('usuario');
+@endphp
 @section('content')
 <div class="container">
     <h1>Editar Venta</h1>

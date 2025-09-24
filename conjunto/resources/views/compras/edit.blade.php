@@ -1,100 +1,104 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container">
-        <h1>Editar Compra</h1>
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <form action="{{ route('compras.update', $compra->id) }}" method="POST">
-            @csrf
-            @method('PUT')
-
-            <div class="mb-3">
-                <label for="proveedor_id" class="form-label">Proveedor</label>
-                <select name="proveedor_id" id="proveedor_id" class="form-select" required>
-                    <option value="">Seleccione un proveedor</option>
-                    @foreach ($proveedores as $proveedor)
-                        <option value="{{ $proveedor->id }}" {{ $compra->proveedor_id == $proveedor->id ? 'selected' : '' }}>
-                            {{ $proveedor->nombre_proveedor }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label for="fecha" class="form-label">Fecha</label>
-                <input type="date" name="fecha" id="fecha" class="form-control" value="{{ $compra->fecha }}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="estado" class="form-label">Estado</label>
-                <select name="estado" id="estado" class="form-select" required>
-                    <option value="PENDIENTE" {{ $compra->estado == 'PENDIENTE' ? 'selected' : '' }}>Pendiente</option>
-                    <option value="COMPLETADO" {{ $compra->estado == 'COMPLETADO' ? 'selected' : '' }}>Completada</option>
-                    <option value="CANCELADO" {{ $compra->estado == 'CANCELADO' ? 'selected' : '' }}>Cancelada</option>
-                </select>
-            </div>
-
-            <h4>Productos</h4>
-            <table class="table" id="productos-table">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Valor Unitario</th>
-                        <th>Subtotal</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($compra->detalles as $i => $detalle)
-                        <tr>
-                            <td>
-                                <select name="productos[{{ $i }}][producto_id]" class="form-select producto" required>
-                                    <option value="">Seleccione</option>
-                                    @foreach ($productos as $producto)
-                                        <option value="{{ $producto->id }}"
-                                            {{ $detalle->producto_id == $producto->id ? 'selected' : '' }}>
-                                            {{ $producto->nombre_producto }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </td>
-                            <td>
-                                <input type="number" name="productos[{{ $i }}][cantidad]" class="form-control cantidad" min="1" value="{{ $detalle->cantidad }}" required>
-                            </td>
-                            <td>
-                                <input type="number" name="productos[{{ $i }}][valor_unitario]" class="form-control valor_unitario" step="0.01" value="{{ $detalle->valor_unitario }}" readonly>
-                            </td>
-                            <td>
-                                <input type="number" name="productos[{{ $i }}][subtotal]" class="form-control subtotal" step="0.01" value="{{ $detalle->subtotal }}" readonly>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-sm eliminar">X</button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-success mb-3" id="add-producto">+ Agregar Producto</button>
-
-            <div class="mb-3">
-                <label for="total" class="form-label">Total</label>
-                <input type="number" step="0.01" name="total" id="total" class="form-control" value="{{ $compra->total }}" required readonly>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Actualizar Compra</button>
-            <a href="{{ route('compras.index') }}" class="btn btn-secondary">Cancelar</a>
-        </form>
+@php
+    $usuario = session('usuario');
+@endphp
+    @if(strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR')
+<form action="{{ route('compras.store') }}" method="post">
+    @csrf
+    <div class="mb-3">
+        <label for="proveedor_id" class="form-label">Proveedor: </label>
+        <select name="proveedor_id" id="proveedor_id" class="form-select" required>
+            <option value="" disabled selected>Seleccione un proveedor</option>
+            @foreach($proveedores as $proveedor)
+                <option value="{{ $proveedor->id }}" {{ old('proveedor_id') == $proveedor->id ? 'selected' : '' }}>
+                    {{ $proveedor->nombre_proveedor }}
+                </option>
+            @endforeach
+        </select>
     </div>
+
+    <div class="mb-3">
+        <label for="fecha" class="form-label">Fecha: </label>
+        <input type="date" class="form-control" id="fecha" name="fecha" value="{{ old('fecha') }}" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="estado" class="form-label">Estado: </label>
+        <select name="estado" id="estado" class="form-select" required>
+            <option value="" disabled selected>Seleccione un estado</option>
+            <option value="PENDIENTE" {{ old('estado') == 'PENDIENTE' ? 'selected' : '' }}>Pendiente</option>
+            <option value="COMPLETADO" {{ old('estado') == 'COMPLETADO' ? 'selected' : '' }}>Completado</option>
+            <option value="CANCELADO" {{ old('estado') == 'CANCELADO' ? 'selected' : '' }}>Cancelado</option>
+        </select>
+    </div>
+
+    <h4>Productos</h4>
+    <table class="table" id="productos-table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Valor Unitario</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @if(old('productos'))
+        @foreach(old('productos') as $i => $prod)
+            <tr>
+                <td>
+                    <select name="productos[{{ $i }}][producto_id]" class="form-select producto" required>
+                        <option value="" disabled>Seleccione</option>
+                        @foreach($productos as $producto)
+                            <option value="{{ $producto->id }}" 
+                                {{ ($prod['producto_id'] ?? null) == $producto->id ? 'selected' : '' }}>
+                                {{ $producto->nombre_producto }}
+                            </option>
+                        @endforeach
+                    </select>
+                </td>
+                <td>
+                    <input type="number" name="productos[{{ $i }}][cantidad]" 
+                           class="form-control cantidad" 
+                           min="1" 
+                           value="{{ $prod['cantidad'] ?? 1 }}" required>
+                </td>
+                <td>
+                    <input type="number" name="productos[{{ $i }}][valor_unitario]" 
+                           class="form-control valor_unitario" 
+                           step="0.01" 
+                           value="{{ $prod['valor_unitario'] ?? '' }}" readonly>
+                </td>
+                <td>
+                    <input type="number" name="productos[{{ $i }}][subtotal]" 
+                           class="form-control subtotal" 
+                           value="{{ $prod['subtotal'] ?? '' }}" readonly>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm eliminar">X</button>
+                </td>
+            </tr>
+        @endforeach
+    @endif
+</tbody>
+    </table>
+    <button type="button" class="btn btn-success" id="add-producto">+ Agregar Producto</button>
+
+    <div class="mb-3 mt-3">
+        <label for="total" class="form-label">Total: </label>
+        <input type="number" step="0.01" class="form-control" id="total" name="total" readonly>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Crear Compra</button>
+    <a href="{{ route('compras.index') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+@else
+    <div class="alert alert-danger" role="alert">
+        No tienes permiso para acceder a esta página.
+    </div>
+@endif
 @endsection
 
 <script>

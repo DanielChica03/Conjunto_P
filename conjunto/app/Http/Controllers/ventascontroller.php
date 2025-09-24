@@ -16,8 +16,20 @@ class ventascontroller extends Controller
      */
     public function index()
     {
-        $ventas = ventas::with('cliente', 'detalles.producto')->latest()->get();
-        return view('ventas.index', compact('ventas'));
+        $usuario = session('usuario');
+        if ($usuario && strtoupper($usuario->tipo_usuario) === 'CLIENTE') {
+            // Solo sus propias compras
+            $ventas = \App\Models\ventas::with('detalles.producto')
+                ->where('cliente_id', $usuario->cedula)
+                ->latest()
+                ->get();
+            $esCliente = true;
+        } else {
+            // Admin y otros ven todas las ventas
+            $ventas = \App\Models\ventas::with('cliente', 'detalles.producto')->latest()->get();
+            $esCliente = false;
+        }
+        return view('ventas.index', compact('ventas', 'esCliente'));
     }
 
     /**

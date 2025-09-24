@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('title', 'Registrar Deuda')
 @section('content')
+@php
+    $usuario = session('usuario');
+@endphp
+@if(strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR' || strtoupper($usuario->tipo_usuario) === 'CAJERO')
+
 <h1 class="h4 mb-3">Registrar Deuda</h1>
 @if($errors->any())
     <div class="alert alert-danger">
@@ -24,7 +29,7 @@
     </div>
     <div class="mb-3">
         <label for="valor" class="form-label">Valor:</label>
-        <input type="number" class="form-control" id="valor" name="valor" required min="0" value="{{ old('valor') }}">
+        <input type="number" class="form-control" id="valor" name="valor" required min="50" value="{{ old('valor') }}">
     </div>
     <div class="mb-3">
         <label for="plazo" class="form-label">Plazo:</label>
@@ -32,9 +37,15 @@
     </div>
     <div class="mb-3">
         <label for="saldo" class="form-label">Saldo:</label>
-        <input type="number" class="form-control" id="saldo" name="saldo" required min="0" value="{{ old('saldo') }}">
+        <input type="number" class="form-control" id="saldo" name="saldo" required min="50" value="{{ old('saldo') }}">
     </div>
     <button type="submit" class="btn btn-primary">Registrar Deuda</button>
     <a href="{{ route('deudas.index') }}" class="btn btn-secondary">Cancelar</a>
 </form>
+@else
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">Acceso Denegado</h4>
+        <p>No tienes permiso para acceder a esta página.</p>
+    </div>
+@endif
 @endsection

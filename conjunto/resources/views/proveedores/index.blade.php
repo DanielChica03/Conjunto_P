@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Lista de Proveedores')
-
+@php
+    $usuario = session('usuario');
+@endphp
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/usuarios.css') }}">
 

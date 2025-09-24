@@ -1,7 +1,12 @@
 @extends('layouts.app')
 @section('title','Editar Producto')
-
+@php
+    $usuario = session('usuario');
+@endphp
 @section('content')
+
+@if(strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR')
+
 <div class="container">
     <h1 class="h4 mb-3">Editar Producto</h1>
     @if($errors->any())
@@ -52,4 +57,10 @@
         <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
+@else
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">Acceso Denegado</h4>
+        <p>No tienes permiso para acceder a esta página.</p>
+    </div>
+@endif
 @endsection

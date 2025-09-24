@@ -4,6 +4,10 @@
     @section('content')
     @section('menu')
     @endsection
+    @php
+    $usuario = session('usuario');
+@endphp
+@if(strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR')
 
 <h1 class="h4 mb-3">Crear Producto</h1>
 
@@ -16,8 +20,15 @@
         </ul>
     </div>
 @endif
-
-    <form action="{{ route('productos.store') }}" method="post">
+@if($usuario && strtoupper($usuario->tipo_usuario) === 'CAJERO' || strtoupper($usuario->tipo_usuario) === 'CLIENTE')
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            <li>No tiene permisos para crear productos.</li>
+        </ul>
+    </div>
+@endif
+@if($usuario && strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR')
+<form action="{{ route('productos.store') }}" method="post">
         @csrf
 
         <div class="mb-3">
@@ -42,5 +53,11 @@
         <button type="submit" class="btn btn-danger">Guardar</button>
         <a href="{{ route('usuarios.index') }}" class="btn btn-secundary">Cancelar</a>
     </form>
-
+@endif
+@else
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">Acceso Denegado</h4>
+        <p>No tienes permiso para acceder a esta página.</p>
+    </div>
+@endif
 @endsection
