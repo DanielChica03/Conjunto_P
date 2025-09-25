@@ -56,6 +56,40 @@
             background: #a12e0c;
             color: #fff;
         }
+
+        .footer {
+            background: #4a2c2a;
+            color: #fdfbf8;
+            padding: 40px 0;
+        }
+
+        .footer h6 {
+            color: #d6b27d; 
+            font-weight: bold;
+        }
+
+        .footer a {
+            color: #fdfbf8;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #d6b27d;
+        }
+
+        .footer .text-center {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.2rem;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
