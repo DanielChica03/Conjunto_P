@@ -119,6 +119,43 @@
         @yield('content')
     </main>
 
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <div class="col-md-3 mb-3">
+                    <h6 class="fw-bold">Sobre la empresa</h6>
+                    <p>Venta de los mejores productos en el conjunto de Yerba Mora.</p>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h6 class="fw-bold">Enlaces Rápidos</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="#">Productos</a></li>
+                        <li><a href="#">Ofertas</a></li>
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h6 class="fw-bold">Contáctenos</h6>
+                    <p><i class="bi bi-geo-alt"></i> Calle 145# 128 - 41, Bogotá, Colombia</p>
+                    <p><i class="bi bi-telephone"></i> 320 12345678</p>
+                    <p><i class="bi bi-envelope"></i> diego.soler@gmail.com</p>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h6 class="fw-bold">Síguenos</h6>
+                    <a href="#"><i class="bi bi-facebook me-2"></i></a>
+                    <a href="#"><i class="bi bi-twitter me-2"></i></a>
+                    <a href="#"><i class="bi bi-instagram me-2"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                © 2023 INNOVAR. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-TODO" crossorigin="anonymous"></script>
 </body>
