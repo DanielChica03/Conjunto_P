@@ -14,6 +14,7 @@
             height: 100%;
             margin: 0;
             display: flex;
+            
         }
         .table-custom th {
             background: #ff9800;
