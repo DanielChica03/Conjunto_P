@@ -16,20 +16,8 @@ class ventascontroller extends Controller
      */
     public function index()
     {
-        $usuario = session('usuario');
-        if ($usuario && strtoupper($usuario->tipo_usuario) === 'CLIENTE') {
-            // Solo sus propias compras
-            $ventas = \App\Models\ventas::with('detalles.producto')
-                ->where('cliente_id', $usuario->cedula)
-                ->latest()
-                ->get();
-            $esCliente = true;
-        } else {
-            // Admin y otros ven todas las ventas
-            $ventas = \App\Models\ventas::with('cliente', 'detalles.producto')->latest()->get();
-            $esCliente = false;
-        }
-        return view('ventas.index', compact('ventas', 'esCliente'));
+        $ventas = ventas::with('cliente', 'detalles.producto')->latest()->get();
+        return view('ventas.index', compact('ventas'));
     }
 
     /**
@@ -39,7 +27,11 @@ class ventascontroller extends Controller
     {
         // Solo usuarios que son clientes
         $usuarios = usuarios::where('tipo_usuario', 'cliente')->get();
-        $productos = producto::all();
+        // Trae productos con inventario disponible
+        $productos = producto::all()->map(function($p) {
+            $p->inventario = \App\Models\inventario::where('producto_id', $p->id)->value('cantidad') ?? 0;
+            return $p;
+        });
         return view('ventas.create', compact('usuarios', 'productos'));
     }
 
@@ -60,36 +52,44 @@ class ventascontroller extends Controller
             'productos.*.valor_unitario' => 'required|numeric|min:0',
         ]);
 
-        DB::transaction(function () use ($request) {
-            $venta = ventas::create([
-                'cliente_id' => $request->cliente,
-                'fecha_venta' => $request->fecha_venta,
-                'total' => $request->total,
-                'estado' => $request->estado,
-                'descuento' => $request->descuento,
-            ]);
-
-            foreach ($request->productos as $producto) {
-                $subtotal = $producto['cantidad'] * $producto['valor_unitario'];
-                ventasdetalle::create([
-                    'venta_id' => $venta->id,
-                    'producto_id' => $producto['producto_id'],
-                    'cantidad' => $producto['cantidad'],
-                    'valor_unitario' => $producto['valor_unitario'],
-                    'subtotal' => $subtotal,
+        try {
+            DB::transaction(function () use ($request) {
+                $venta = ventas::create([
+                    'cliente_id' => $request->cliente,
+                    'fecha_venta' => $request->fecha_venta,
+                    'total' => $request->total,
+                    'estado' => $request->estado,
+                    'descuento' => $request->descuento,
                 ]);
 
-                // Descontar del inventario
-                $inventario = \App\Models\inventario::where('producto_id', $producto['producto_id'])->first();
-                if ($inventario) {
-                    $inventario->cantidad -= $producto['cantidad'];
-                    if ($inventario->cantidad < 0) {
-                        throw new \Exception('No hay suficiente inventario para el producto ID: ' . $producto['producto_id']);
+                foreach ($request->productos as $producto) {
+                    $subtotal = $producto['cantidad'] * $producto['valor_unitario'];
+                    ventasdetalle::create([
+                        'venta_id' => $venta->id,
+                        'producto_id' => $producto['producto_id'],
+                        'cantidad' => $producto['cantidad'],
+                        'valor_unitario' => $producto['valor_unitario'],
+                        'subtotal' => $subtotal,
+                    ]);
+
+                    // Descontar del inventario
+                    $inventario = \App\Models\inventario::where('producto_id', $producto['producto_id'])->first();
+                    if ($inventario) {
+                        if ($inventario->cantidad < $producto['cantidad']) {
+                            // Lanzar excepción personalizada para capturarla afuera
+                            throw new \Exception('No hay suficiente inventario para el producto ID: ' . $producto['producto_id']);
+                        }
+                        $inventario->cantidad -= $producto['cantidad'];
+                        $inventario->save();
                     }
-                    $inventario->save();
                 }
-            }
-        });
+            });
+        } catch (\Exception $e) {
+            // Redirige con mensaje de error
+            return redirect()->back()
+                ->withInput()
+                ->with('error', $e->getMessage());
+        }
 
         return redirect()->route('ventas.index')->with('success', 'Venta creada exitosamente.');
     }

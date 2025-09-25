@@ -76,10 +76,11 @@
                     </select>
                 </td>
                 <td>
-                    <input type="number" name="productos[{{ $i }}][cantidad]"
-                        class="form-control cantidad"
-                        min="1"
-                        value="{{ $prod['cantidad'] ?? 1 }}" required>
+                    <input type="number" name="productos[{{ $i }}][cantidad]" 
+                           class="form-control cantidad" 
+                           min="1"
+                           max="{{ $productos->firstWhere('id', $prod['producto_id'] ?? null)?->inventario ?? 1 }}"
+                           value="{{ $prod['cantidad'] ?? 1 }}" required>
                 </td>
                 <td>
                     <input type="number" name="productos[{{ $i }}][valor_unitario]"
@@ -128,7 +129,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 <select name="productos[${rowIndex}][producto_id]" class="form-select producto" required>
                     <option value="" disabled selected>Seleccione</option>
                     @foreach($productos as $producto)
-                        <option value="{{ $producto->id }}">{{ $producto->nombre_producto }}</option>
+                        <option value="{{ $producto->id }}" data-inventario="{{ $producto->inventario }}">
+                            {{ $producto->nombre_producto }} (Disponible: {{ $producto->inventario }})
+                        </option>
                     @endforeach
                 </select>
             </td>

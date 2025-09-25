@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', $esCliente ? 'Mis Compras' : 'Lista de Ventas')
+@section('title','Lista de Ventas')
 
 @section('content')
 
@@ -7,6 +7,7 @@
     $usuario = session('usuario');
     $esAdmin = $usuario && strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR';
     $esCajero = $usuario && strtoupper($usuario->tipo_usuario) === 'CAJERO';
+    $esCliente = $usuario && strtoupper($usuario->tipo_usuario) === 'CLIENTE';
 @endphp
 
 <h1 class="h4 mb-3">{{ $esCliente ? 'Mis Compras' : 'Lista de Ventas' }}</h1>

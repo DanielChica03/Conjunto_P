@@ -79,7 +79,8 @@
                 <td>
                     <input type="number" name="productos[{{ $i }}][cantidad]" 
                            class="form-control cantidad" 
-                           min="1" 
+                           min="1"
+                           max="" 
                            value="{{ $prod['cantidad'] ?? 1 }}" required>
                 </td>
                 <td>
