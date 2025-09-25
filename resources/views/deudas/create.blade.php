@@ -1,0 +1,68 @@
+@extends('layouts.app')
+@section('title', 'Registrar Deuda')
+@section('content')
+@php
+    $usuario = session('usuario');
+@endphp
+@if(strtoupper($usuario->tipo_usuario) === 'ADMINISTRADOR' || strtoupper($usuario->tipo_usuario) === 'CAJERO')
+
+<h1 class="h4 mb-3">Registrar Deuda</h1>
+@if($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<form action="{{ route('deudas.store') }}" method="post">
+    @csrf
+    <div class="mb-3">
+        <label for="id_venta" class="form-label">Venta Pendiente:</label>
+        <select name="id_venta" id="id_venta" class="form-select" required>
+            <option value="" disabled selected>Seleccione una venta</option>
+            @foreach($ventas as $venta)
+                <option value="{{ $venta->id }}" data-total="{{ $venta->total }}">
+                    Venta #{{ $venta->id }} - Cliente: {{ $venta->cliente->nombre ?? 'Sin Cliente' }} - Total: ${{ $venta->total }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="valor" class="form-label">Valor:</label>
+        <input type="number" class="form-control" id="valor" name="valor" required min="50" value="{{ old('valor') }}">
+    </div>
+    <div class="mb-3">
+        <label for="plazo" class="form-label">Plazo:</label>
+        <input type="date" class="form-control" id="plazo" name="plazo" required value="{{ old('plazo') }}">
+    </div>
+    <div class="mb-3">
+        <label for="saldo" class="form-label">Saldo:</label>
+        <input type="number" class="form-control" id="saldo" name="saldo" required min="50" value="{{ old('saldo') }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Registrar Deuda</button>
+    <a href="{{ route('deudas.index') }}" class="btn btn-secondary">Cancelar</a>
+</form>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selectVenta = document.getElementById('id_venta');
+    const inputValor = document.getElementById('valor');
+    const inputSaldo = document.getElementById('saldo');
+    selectVenta.addEventListener('change', function() {
+        const selected = this.options[this.selectedIndex];
+        const total = selected.getAttribute('data-total');
+        if(total) {
+            inputValor.value = total;
+            inputSaldo.value = total;
+        }
+    });
+});
+</script>
+@else
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">Acceso Denegado</h4>
+        <p>No tienes permiso para acceder a esta página.</p>
+    </div>
+@endif
+@endsection
