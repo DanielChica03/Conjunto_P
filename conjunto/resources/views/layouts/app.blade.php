@@ -10,12 +10,6 @@
     <link rel="stylesheet" href="../../css/estilos.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <style>
-        body{
-            height: 100%;
-            margin: 0;
-            display: flex;
-            
-        }
         .table-custom th {
             background: #ff9800;
             color: #fff;
